@@ -38,8 +38,8 @@ final class WorkspaceSettingsTests: XCTestCase {
     }
 
     func test_equals() {
-        let lhs = WorkspaceSettings(buildSystem: .new)
-        let rhs = WorkspaceSettings(buildSystem: .original)
+      let lhs = WorkspaceSettings(buildSystem: .new, autoCreateSchemes: true)
+      let rhs = WorkspaceSettings(buildSystem: .original, autoCreateSchemes: true)
         XCTAssertNotEqual(lhs, rhs)
     }
 

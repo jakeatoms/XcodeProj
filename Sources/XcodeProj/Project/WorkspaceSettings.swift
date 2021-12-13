@@ -37,7 +37,7 @@ public class WorkspaceSettings: Codable, Equatable, Writable {
     public var derivedDataCustomLocation: String?
 
     /// When true, Xcode auto-creates schemes in the project.
-    public var autoCreateSchemes: Bool?
+    public var autoCreateSchemes: Bool
 
     /// Decodable coding keys.
     ///
@@ -56,10 +56,10 @@ public class WorkspaceSettings: Codable, Equatable, Writable {
     ///   - derivedDataLocationStyle: Workspace DerivedData directory.
     ///   - derivedDataCustomLocation: Path to workspace DerivedData directory.
     ///   - autoCreateSchemes: When true, Xcode auto-creates schemes in the project.
-    init(buildSystem: BuildSystem = .new,
+    public init(buildSystem: BuildSystem = .new,
          derivedDataLocationStyle: DerivedDataLocationStyle? = nil,
          derivedDataCustomLocation: String? = nil,
-         autoCreateSchemes: Bool? = nil) {
+         autoCreateSchemes: Bool) {
         self.buildSystem = buildSystem
         self.derivedDataLocationStyle = derivedDataLocationStyle
         self.derivedDataCustomLocation = derivedDataCustomLocation
@@ -85,7 +85,7 @@ public class WorkspaceSettings: Codable, Equatable, Writable {
             derivedDataLocationStyle = .default
         }
         derivedDataCustomLocation = try container.decodeIfPresent(.derivedDataCustomLocation)
-        autoCreateSchemes = try container.decodeIfPresent(.autoCreateSchemes)
+        autoCreateSchemes = try container.decode(.autoCreateSchemes)
     }
 
     /// Encodes the settings into the given encoder.
@@ -103,9 +103,7 @@ public class WorkspaceSettings: Codable, Equatable, Writable {
         if let derivedDataCustomLocation = derivedDataCustomLocation {
             try container.encode(derivedDataCustomLocation, forKey: .derivedDataCustomLocation)
         }
-        if let autoCreateSchemes = autoCreateSchemes {
-            try container.encode(autoCreateSchemes, forKey: .autoCreateSchemes)
-        }
+        try container.encode(autoCreateSchemes, forKey: .autoCreateSchemes)
     }
 
     /// Initializes the settings reading the values from the WorkspaceSettings.xcsettings file.
